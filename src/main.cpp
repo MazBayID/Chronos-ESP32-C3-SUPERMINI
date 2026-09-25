@@ -26,8 +26,11 @@ struct Button {
     uint32_t pressedAt = 0;
     bool longSent = false;
 
+    // Tambahan Constructor untuk memperbaiki error inisialisasi pin
+    Button(uint8_t p) : pin(p) {}
+
     void begin() {
-        pinMode(pin, INPUT);
+        pinMode(pin, INPUT); // Pastikan ini INPUT atau INPUT_PULLUP sesuai hardware-mu
         last = digitalRead(pin);
     }
 
