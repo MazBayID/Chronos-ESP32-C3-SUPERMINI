@@ -1,0 +1,42 @@
+name: Build Dirgamochi-C3
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install PlatformIO
+        run: pip install platformio
+
+      - name: Build
+        run: pio run -e esp32-c3-supermini
+
+      - name: Package firmware
+        run: |
+          mkdir -p release
+          cp .pio/build/esp32-c3-supermini/firmware.bin release/dirgamochi-c3.bin
+          cp .pio/build/esp32-c3-supermini/firmware.elf release/dirgamochi-c3.elf
+          cp platformio.ini release/
+          cp README.md release/
+          cd release
+          zip -r ../dirgamochi-c3-build.zip .
+
+      - name: Upload firmware artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dirgamochi-c3-firmware
+          path: dirgamochi-c3-build.zip
+          
