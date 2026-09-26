@@ -14,7 +14,7 @@
 // INMP441
 #define DG_MIC_BCLK       1
 #define DG_MIC_WS         2
-#define DG_MIC_DATA       8
+#define DG_MIC_DATA       10
 
 // MAX98357A
 #define DG_SPK_BCLK       1
